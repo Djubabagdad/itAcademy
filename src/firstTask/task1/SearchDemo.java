@@ -16,14 +16,16 @@ public class SearchDemo {
     public static void main(String[] args) throws InterruptedException {
         search.getFromKeyboard();
         search.sortNumbers();
+        Scanner scanner = new Scanner(System.in);
+        threadNum = scanner.nextInt();
         searchWithOne();
         searchWithMany();
     }
 
     private static void searchWithOne() throws InterruptedException {
         long startTime = System.currentTimeMillis();
-        result();
         splitNumbers();
+        result();
         long time = System.currentTimeMillis() - startTime;
         System.out.println(time);
     }
@@ -60,8 +62,6 @@ public class SearchDemo {
     }
 
     private static void splitNumbersForMany() {
-        Scanner sc = new Scanner(System.in);
-        threadNum = sc.nextInt();
         int countOfParts;
         for (int i = 0; i < threadNum; i++) {
             countOfParts = search.getList().size() / threadNum;
@@ -79,6 +79,9 @@ public class SearchDemo {
         CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         int i = 0;
         for (List<Integer> list : partOfList) {
+            if (i == threadNum) {
+                break;
+            }
             UserSearchPrimaryWithMany userSearchPrimaryWithMany = new UserSearchPrimaryWithMany(list, countDownLatch);
             new Thread(userSearchPrimaryWithMany).start();
             usersArray[i] = userSearchPrimaryWithMany;

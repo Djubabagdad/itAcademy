@@ -19,7 +19,6 @@ public class Search {
 
     void sortNumbers(){
         int number = inputFrom;
-
         do {
             if(number == 2){
                 list.add(number);
